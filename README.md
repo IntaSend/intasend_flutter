@@ -22,4 +22,4 @@ Plugin for IntaSend's checkout integration.
 
 ## Code example
 
-    Check (example code)[https://pub.dev/packages/intasend_flutter/example]
+Check [example code here.](https://pub.dev/packages/intasend_flutter/example)
