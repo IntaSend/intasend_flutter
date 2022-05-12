@@ -11,14 +11,13 @@ class IntasendFlutter {
   }
 
   static initCheckout(
-      {bool test = false,
+      {bool test: false,
       required Checkout checkout,
       required BuildContext context}) {
     IntaSendAPI.createCheckout(test: test, body: checkout.toJson())
         .then((value) async => {
-              if (value)
-                {
-                  if (value.url)
+              
+                  if (!value.url.isEmpty)
                     {
                       await Navigator.push(
                           context,
@@ -26,7 +25,7 @@ class IntasendFlutter {
                               builder: (context) =>
                                   IntasendWebView(url: value.url)))
                     }
-                }
+               
             });
   }
 }
