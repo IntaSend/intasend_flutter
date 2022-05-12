@@ -1,7 +1,8 @@
 name: intasend_flutter
 description: A new Flutter plugin project.
 version: 0.0.1
-homepage:
+homepage: https://intasend.com
+repository: https://github.com/intasend/intasend_flutter
 
 environment:
   sdk: ">=2.17.0 <3.0.0"
