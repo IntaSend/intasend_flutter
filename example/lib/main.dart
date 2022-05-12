@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:intasend_flutter/intasend_flutter.dart';
+import 'package:intasend_flutter/models/checkout.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,8 +32,8 @@ class _MyAppState extends State<MyApp> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     // We also handle the message potentially returning null.
     try {
-      platformVersion =
-          await _intasendFlutterPlugin.getPlatformVersion() ?? 'Unknown platform version';
+      platformVersion = await _intasendFlutterPlugin.getPlatformVersion() ??
+          'Unknown platform version';
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
@@ -49,13 +50,49 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    _runPayment(context) {
+      // Initialize checkout
+      Checkout checkout = Checkout(
+          publicKey: "<PUBLIC-KEY>",
+          amount: 10.01,
+          email: "joe@doe.com",
+          currency: "USD",
+          firstName: "Joe",
+          lastName: "Doe");
+
+      // Add test to true in sandbox environment. Use false to go live
+      IntasendFlutter.initCheckout(
+          test: true, checkout: checkout, context: context);
+    }
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Plugin example app'),
+          title: const Text('Checkout example'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Material(
+                elevation: 5.0,
+                borderRadius: BorderRadius.circular(3.0),
+                color: Color(0xff3182CE),
+                child: MaterialButton(
+                  minWidth: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 12.0),
+                  onPressed: () {
+                    // Call run payment on button press
+                    _runPayment(context);
+                  },
+                  child: Text(
+                    "Complete Payment",
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
