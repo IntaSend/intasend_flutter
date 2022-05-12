@@ -7,15 +7,16 @@ class Checkout {
   String? email;
   String? firstName;
   String? lastName;
+  String? signature;
   String? createdAt;
 
   Checkout(
       {required String publicKey,
+      required String currency,
+      required double amount,
       String? email,
       String? lastName,
-      String? firstName,
-      required String currency,
-      required double amount}) {
+      String? firstName}) {
     this.publicKey = publicKey;
     this.amount = amount;
     this.currency = currency;
@@ -27,9 +28,7 @@ class Checkout {
   Checkout.fromJson(Map json)
       : id = json['id'],
         url = json['url'],
-        //amount = json['amount'],
-        firstName = json['first_name'],
-        lastName = json['last_name'],
+        signature = json['signature'],
         createdAt = json['created_at'];
 
   Map toJson() {

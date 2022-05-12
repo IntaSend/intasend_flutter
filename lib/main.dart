@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intasend_flutter/models/checkout.dart';
-    import 'package:intasend_flutter/intasend_flutter.dart';
+import 'package:intasend_flutter/intasend_flutter.dart';
 
 void main() {
   runApp(MyApp());
@@ -30,16 +30,21 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-_runPayment(context) {
-Checkout checkout = new Checkout(publicKey:"ISPubKey_test_f453bc5b-bb5b-4585-9079-5008f9736449", amount:10.01, email:"joe@doe.com", currency:"USD",firstName:"f", lastName:"c");
-    //checkout.publicKey = "YOUR-KEY";
-    //checkout.amount =10.0;
-    //checkout.email = "joe@doe.com";
-    //checkout.firstName="Joe";
-    //checkout.lastName="Doe";
-print(checkout);
-    IntasendFlutter.initCheckout(test:true, checkout:checkout, context:context);
-}
+  _runPayment(context) {
+    // Initialize checkout
+    Checkout checkout = Checkout(
+        publicKey: "<PUBLIC-KEY>",
+        amount: 10.01,
+        email: "joe@doe.com",
+        currency: "USD",
+        firstName: "Joe",
+        lastName: "Doe");
+
+    // Add test to true in sandbox environment. Use false to go live
+    IntasendFlutter.initCheckout(
+        test: true, checkout: checkout, context: context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +62,9 @@ print(checkout);
                 child: MaterialButton(
                   minWidth: MediaQuery.of(context).size.width,
                   padding: EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 12.0),
-                  onPressed: () {_runPayment(context);},
+                  onPressed: () {
+                    _runPayment(context);
+                  },
                   child: Text(
                     "Complete Payment",
                     textAlign: TextAlign.center,

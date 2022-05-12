@@ -12,9 +12,9 @@ class IntaSendAPI {
     }
     var url = "$baseUrl/api/v1/checkout/";
     var headers = {"Content-Type": "application/json"};
-    print(body);
-    final resp = await http.post(Uri.parse(url), headers: headers, body: jsonEncode(body));
-    if (resp.statusCode == 200  || resp.statusCode == 201) {
+    final resp = await http.post(Uri.parse(url),
+        headers: headers, body: jsonEncode(body));
+    if (resp.statusCode == 200 || resp.statusCode == 201) {
       Checkout checkout = Checkout.fromJson(json.decode(resp.body));
       return checkout;
     } else {

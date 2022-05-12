@@ -18,7 +18,7 @@ class IntasendWebView extends StatelessWidget {
       initialChild: Container(
         color: Colors.white,
         child: const Center(
-          child: Text('Waiting.....'),
+          child: Text('Please wait..'),
         ),
       ),
       bottomNavigationBar: BottomAppBar(
