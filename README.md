@@ -1,12 +1,8 @@
 # intasend flutter
 
-## How to install
+Plugin for IntaSend's checkout integration.
 
-    pub get intasend_flutter
-
-## Getting Started
-
-### Setup checkout screen
+## How to setup checkout screen
 
     import 'package:intasend_flutter/models/checkout.dart';
     import 'package:intasend_flutter/intasend_flutter.dart';
