@@ -1,6 +1,6 @@
 name: intasend_flutter
 description: Flutter plugin for IntaSend payments integration. Collect M-Pesa, and card payments.
-version: 0.0.1
+version: 0.0.2
 homepage: https://intasend.com
 repository: https://github.com/intasend/intasend_flutter
 
