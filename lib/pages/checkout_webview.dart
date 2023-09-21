@@ -1,50 +1,88 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
-class IntasendWebView extends StatelessWidget {
+class IntasendWebView extends StatefulWidget {
   final String url;
-  final flutterWebViewPlugin = FlutterWebviewPlugin();
 
-  IntasendWebView({Key? key, required this.url}) : super(key: key);
+  const IntasendWebView({Key? key, required this.url}) : super(key: key);
+
+  @override
+  State<IntasendWebView> createState() => _IntasendWebViewState();
+}
+
+class _IntasendWebViewState extends State<IntasendWebView> {
+  late WebViewController controller;
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(const Color(0x00000000))
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onProgress: (int progress) {
+            if (progress == 100) {
+              setState(() {
+                isLoading = false;
+              });
+            } else {
+              if (!isLoading) {
+                setState(() {
+                  isLoading = true;
+                });
+              }
+            }
+          },
+          onPageStarted: (String url) {},
+          onPageFinished: (String url) {
+            setState(() {
+              isLoading = false;
+            });
+          },
+          onWebResourceError: (WebResourceError error) {
+            debugPrint(error.url);
+          },
+          onNavigationRequest: (NavigationRequest request) {
+            return NavigationDecision.navigate;
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse(widget.url));
+  }
 
   @override
   Widget build(BuildContext context) {
-    return WebviewScaffold(
-      url: url,
-      mediaPlaybackRequiresUserGesture: false,
-      withZoom: true,
-      withLocalStorage: true,
-      hidden: false,
-      initialChild: Container(
-        color: Colors.white,
-        child: const Center(
-          child: Text('Please wait..'),
-        ),
-      ),
+    return Scaffold(
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : WebViewWidget(controller: controller),
       bottomNavigationBar: BottomAppBar(
         child: Row(
           children: <Widget>[
             IconButton(
               icon: const Icon(Icons.arrow_back_ios),
               onPressed: () {
-                flutterWebViewPlugin.goBack();
+                controller.goBack();
               },
             ),
             IconButton(
               icon: const Icon(Icons.arrow_forward_ios),
               onPressed: () {
-                flutterWebViewPlugin.goForward();
+                controller.goForward();
               },
             ),
             IconButton(
               icon: const Icon(Icons.autorenew),
               onPressed: () {
-                flutterWebViewPlugin.reload();
+                controller.reload();
               },
             ),
           ],
         ),
       ),
-    );
+    ); 
   }
 }
